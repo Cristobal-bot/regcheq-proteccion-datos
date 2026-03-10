@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init:*)",
+      "Bash(gh repo:*)",
+      "Bash(unzip -o /Users/cristobalconchanoguera/Downloads/regcheq-proteccion-datos.zip -d /tmp/regcheq-update)",
+      "Read(//tmp/regcheq-update/**)"
+    ]
+  }
+}
