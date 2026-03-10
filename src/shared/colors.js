@@ -1,0 +1,35 @@
+// ============================================
+// REGCHEQ — Design System Colors
+// ============================================
+
+export const C = {
+  navyDark: "#141242",
+  navyMid: "#1e1b5e",
+  navyLight: "#3d3a8c",
+  bg: "#f3f4f8",
+  white: "#ffffff",
+  text: "#141242",
+  textSec: "#64668b",
+  textMut: "#9b9db5",
+  green: "#10b981",
+  greenLt: "#d1fae5",
+  yellow: "#f59e0b",
+  yellowLt: "#fef3c7",
+  red: "#ef4444",
+  redLt: "#fee2e2",
+  blue: "#3b82f6",
+  blueLt: "#dbeafe",
+  purple: "#8b5cf6",
+  purpleLt: "#ede9fe",
+  orange: "#f97316",
+  orangeLt: "#ffedd5",
+  cyan: "#06b6d4",
+  cyanLt: "#cffafe",
+  teal: "#14b8a6",
+  tealLt: "#ccfbf1",
+  border: "#e2e4ed",
+  cardShadow: "0 1px 4px rgba(20,18,66,0.06)",
+  ai: "#7c3aed",
+  aiLt: "#ede9fe",
+  aiGlow: "rgba(124,58,237,0.08)",
+};
