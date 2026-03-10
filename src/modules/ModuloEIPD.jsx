@@ -135,49 +135,6 @@ const initialEIPDs = [
 ];
 
 // ===== SIDEBAR =====
-const sidebarItems = [
-  { icon: "🏠", label: "Dashboard", id: "dashboard" },
-  { icon: "📋", label: "Inventario RAT", id: "rat" },
-  { icon: "⚖️", label: "Licitud", id: "licitud" },
-  { icon: "🔒", label: "Riesgos (EIPD)", id: "eipd", active: true },
-  { icon: "📩", label: "Derechos ARCO+", id: "arco" },
-];
-
-const Sidebar = ({ collapsed, onToggle }) => (
-  <div style={{
-    width: collapsed ? 56 : 210, minHeight: "100vh",
-    background: `linear-gradient(180deg, ${C.navyDark} 0%, ${C.navyMid} 100%)`,
-    color: "#fff", display: "flex", flexDirection: "column",
-    position: "fixed", left: 0, top: 0, zIndex: 100, transition: "width 0.2s",
-  }}>
-    <div style={{
-      padding: collapsed ? "18px 8px" : "18px 16px",
-      borderBottom: "1px solid rgba(255,255,255,0.08)",
-      display: "flex", alignItems: "center", justifyContent: collapsed ? "center" : "space-between",
-    }}>
-      {!collapsed && <span style={{ fontWeight: 800, fontSize: 20, fontFamily: "Georgia, serif" }}>Regcheq</span>}
-      <button onClick={onToggle} style={{ background: "rgba(255,255,255,0.08)", border: "none", color: "#fff", cursor: "pointer", borderRadius: 4, padding: "3px 7px", fontSize: 12 }}>
-        {collapsed ? "▶" : "◀"}
-      </button>
-    </div>
-    <nav style={{ flex: 1, paddingTop: 6 }}>
-      {sidebarItems.map(item => (
-        <div key={item.id} style={{
-          display: "flex", alignItems: "center", gap: 10,
-          padding: collapsed ? "10px 0" : "10px 16px",
-          justifyContent: collapsed ? "center" : "flex-start", cursor: "pointer",
-          background: item.active ? "rgba(255,255,255,0.12)" : "transparent",
-          borderLeft: item.active ? "3px solid #fff" : "3px solid transparent", fontSize: 13,
-        }}>
-          <span style={{ fontSize: 15 }}>{item.icon}</span>
-          {!collapsed && <span style={{ fontWeight: item.active ? 600 : 400 }}>{item.label}</span>}
-        </div>
-      ))}
-    </nav>
-    {!collapsed && <div style={{ padding: "14px 16px", borderTop: "1px solid rgba(255,255,255,0.08)", fontSize: 10, color: "rgba(255,255,255,0.35)" }}>Protección de Datos · Ley 21.719</div>}
-  </div>
-);
-
 // ===== UI COMPONENTS =====
 const Badge = ({ text, color, bg }) => <span style={{ padding: "2px 10px", borderRadius: 10, fontSize: 11, fontWeight: 600, background: bg, color, whiteSpace: "nowrap" }}>{text}</span>;
 const RiskBadge = ({ score }) => { const r = getRiskLevel(score); return <Badge text={`${r.label} (${score})`} color={r.color} bg={r.bg} />; };
@@ -707,7 +664,6 @@ const AICopilot = ({ open, onToggle, getResponse, getQuickActions, contextLabel 
 
 
 export default function ModuloEIPD() {
-  const [collapsed, setCollapsed] = useState(false);
   const [copilotOpen, setCopilotOpen] = useState(false);
   const [view, setView] = useState("list");
   const [eipds, setEipds] = useState(initialEIPDs);
@@ -731,7 +687,6 @@ export default function ModuloEIPD() {
 
   const handleUpdate = (updated) => setEipds(eipds.map(e => e.id === updated.id ? updated : e));
 
-  const ml = collapsed ? 56 : 210;
   const mr = copilotOpen ? 380 : 0;
 
   if (view === "detail" && selectedId) {
@@ -739,9 +694,8 @@ export default function ModuloEIPD() {
     const rat = ratAltoRiesgo.find(a => a.id === eipd?.ratId);
     if (!eipd || !rat) return null;
     return (
-      <div style={{ display: "flex", minHeight: "100vh", background: C.bg, fontFamily: "'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif" }}>
-        <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
-        <div style={{ flex: 1, marginLeft: ml, marginRight: mr, transition: "margin-left 0.2s, margin-right 0.3s" }}>
+      <div>
+        <div style={{ flex: 1, marginLeft: 0, marginRight: mr, transition: "margin-right 0.3s" }}>
           <div style={{ height: 52, background: C.white, borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", padding: "0 28px", position: "sticky", top: 0, zIndex: 50 }}>
             <span style={{ fontSize: 13, color: C.textSec }}>Protección de Datos</span>
             <span style={{ color: C.textMut, margin: "0 6px" }}>›</span>
@@ -758,9 +712,8 @@ export default function ModuloEIPD() {
   }
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: C.bg, fontFamily: "'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif" }}>
-      <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
-      <div style={{ flex: 1, marginLeft: ml, marginRight: mr, transition: "margin-left 0.2s, margin-right 0.3s" }}>
+    <div>
+      <div style={{ flex: 1, marginLeft: 0, marginRight: mr, transition: "margin-right 0.3s" }}>
         <div style={{ height: 52, background: C.white, borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", padding: "0 28px", position: "sticky", top: 0, zIndex: 50 }}>
           <span style={{ fontSize: 13, color: C.textSec }}>Protección de Datos</span>
           <span style={{ color: C.textMut, margin: "0 6px" }}>›</span>

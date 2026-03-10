@@ -364,32 +364,6 @@ const AICopilot = ({ open, onToggle, currentView, vinculacion, rat, selectedRatI
 // ====================================================================
 // MAIN MODULE
 // ====================================================================
-const sidebarItems = [
-  { icon: "🏠", label: "Dashboard", id: "dashboard" },
-  { icon: "📋", label: "Inventario RAT", id: "rat" },
-  { icon: "⚖️", label: "Licitud", id: "licitud", active: true },
-  { icon: "🔒", label: "Riesgos (EIPD)", id: "eipd" },
-  { icon: "📩", label: "Derechos ARCO+", id: "arco" },
-];
-
-const Sidebar = ({ collapsed, onToggle }) => (
-  <div style={{ width: collapsed ? 56 : 210, minHeight: "100vh", background: `linear-gradient(180deg, ${C.navyDark} 0%, ${C.navyMid} 100%)`, color: "#fff", display: "flex", flexDirection: "column", position: "fixed", left: 0, top: 0, zIndex: 100, transition: "width 0.2s" }}>
-    <div style={{ padding: collapsed ? "18px 8px" : "18px 16px", borderBottom: "1px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: collapsed ? "center" : "space-between" }}>
-      {!collapsed && <span style={{ fontWeight: 800, fontSize: 20, fontFamily: "Georgia, serif" }}>Regcheq</span>}
-      <button onClick={onToggle} style={{ background: "rgba(255,255,255,0.08)", border: "none", color: "#fff", cursor: "pointer", borderRadius: 4, padding: "3px 7px", fontSize: 12 }}>{collapsed ? "▶" : "◀"}</button>
-    </div>
-    <nav style={{ flex: 1, paddingTop: 6 }}>
-      {sidebarItems.map(item => (
-        <div key={item.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: collapsed ? "10px 0" : "10px 16px", justifyContent: collapsed ? "center" : "flex-start", cursor: "pointer", background: item.active ? "rgba(255,255,255,0.12)" : "transparent", borderLeft: item.active ? "3px solid #fff" : "3px solid transparent", fontSize: 13 }}>
-          <span style={{ fontSize: 15 }}>{item.icon}</span>
-          {!collapsed && <span style={{ fontWeight: item.active ? 600 : 400 }}>{item.label}</span>}
-        </div>
-      ))}
-    </nav>
-    {!collapsed && <div style={{ padding: "14px 16px", borderTop: "1px solid rgba(255,255,255,0.08)", fontSize: 10, color: "rgba(255,255,255,0.35)" }}>Protección de Datos · Ley 21.719</div>}
-  </div>
-);
-
 const Badge = ({ text, color, bg }) => <span style={{ padding: "2px 10px", borderRadius: 10, fontSize: 11, fontWeight: 600, background: bg, color, whiteSpace: "nowrap" }}>{text}</span>;
 const RiskBadge = ({ level }) => { const m = { Bajo: [C.green, C.greenLt], Medio: [C.yellow, C.yellowLt], Alto: [C.red, C.redLt] }; const [color, bg] = m[level] || m.Medio; return <Badge text={level} color={color} bg={bg} />; };
 const StatusBadge = ({ estado }) => { const m = { "Validada": [C.green, C.greenLt], "En ponderación": [C.yellow, C.yellowLt], "Pendiente": [C.orange, C.orangeLt], "Sin asignar": [C.red, C.redLt], "Rechazada": [C.red, C.redLt] }; const [color, bg] = m[estado] || [C.textMut, C.bg]; return <Badge text={estado} color={color} bg={bg} />; };
@@ -576,7 +550,6 @@ const NewVinculacion = ({ onSave, onCancel, actividades, existingRatIds, onRatSe
 
 // ===== MAIN =====
 export default function ModuloLicitud() {
-  const [collapsed, setCollapsed] = useState(false);
   const [view, setView] = useState("list");
   const [vinculaciones, setVinculaciones] = useState(initialVinculaciones);
   const [selectedId, setSelectedId] = useState(null);
@@ -597,7 +570,6 @@ export default function ModuloLicitud() {
   };
   const handleUpdate = (updated) => setVinculaciones(vinculaciones.map(v => v.id === updated.id ? updated : v));
 
-  const ml = collapsed ? 56 : 210;
   const mr = copilotOpen ? 380 : 0;
   const selectedVinc = selectedId ? vinculaciones.find(v => v.id === selectedId) : null;
   const selectedRat = selectedVinc ? ratActividades.find(a => a.id === selectedVinc.ratId) : null;
@@ -658,9 +630,8 @@ export default function ModuloLicitud() {
   };
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: C.bg, fontFamily: "'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif" }}>
-      <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
-      <div style={{ flex: 1, marginLeft: ml, marginRight: mr, transition: "margin-left 0.2s, margin-right 0.3s" }}>
+    <div>
+      <div style={{ flex: 1, marginLeft: 0, marginRight: mr, transition: "margin-right 0.3s" }}>
         <div style={{ height: 52, background: C.white, borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 28px", position: "sticky", top: 0, zIndex: 50 }}>
           <div style={{ display: "flex", alignItems: "center" }}>
             <span style={{ fontSize: 13, color: C.textSec }}>Protección de Datos</span>

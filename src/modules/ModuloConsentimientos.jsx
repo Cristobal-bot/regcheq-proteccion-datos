@@ -454,31 +454,10 @@ const AICopilot = ({ open, onToggle, currentView, currentTab, registro }) => {
 // ====================================================================
 // SIDEBAR
 // ====================================================================
-const sidebarItems = [
-  { icon: "🏠", label: "Dashboard", id: "dashboard" },
-  { icon: "📋", label: "Inventario RAT", id: "rat" },
-  { icon: "⚖️", label: "Licitud", id: "licitud" },
-  { icon: "✋", label: "Consentimientos", id: "consent1" },
-  { icon: "📑", label: "Gestión Consent.", id: "consent2", active: true },
-  { icon: "🔒", label: "Riesgos (EIPD)", id: "eipd" },
-  { icon: "📩", label: "Derechos ARCO+", id: "arco" },
-];
-const Sidebar = ({ collapsed, onToggle }) => (
-  <div style={{ width: collapsed ? 56 : 210, minHeight: "100vh", background: `linear-gradient(180deg, ${C.navyDark} 0%, ${C.navyMid} 100%)`, color: "#fff", display: "flex", flexDirection: "column", position: "fixed", left: 0, top: 0, zIndex: 100, transition: "width 0.2s" }}>
-    <div style={{ padding: collapsed ? "18px 8px" : "18px 16px", borderBottom: "1px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: collapsed ? "center" : "space-between" }}>
-      {!collapsed && <span style={{ fontWeight: 800, fontSize: 20, fontFamily: "Georgia, serif" }}>Regcheq</span>}
-      <button onClick={onToggle} style={{ background: "rgba(255,255,255,0.08)", border: "none", color: "#fff", cursor: "pointer", borderRadius: 4, padding: "3px 7px", fontSize: 12 }}>{collapsed ? "▶" : "◀"}</button>
-    </div>
-    <nav style={{ flex: 1, paddingTop: 6 }}>{sidebarItems.map(item => <div key={item.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: collapsed ? "10px 0" : "10px 16px", justifyContent: collapsed ? "center" : "flex-start", cursor: "pointer", background: item.active ? "rgba(255,255,255,0.12)" : "transparent", borderLeft: item.active ? "3px solid #fff" : "3px solid transparent", fontSize: 13 }}><span style={{ fontSize: 15 }}>{item.icon}</span>{!collapsed && <span style={{ fontWeight: item.active ? 600 : 400 }}>{item.label}</span>}</div>)}</nav>
-    {!collapsed && <div style={{ padding: "14px 16px", borderTop: "1px solid rgba(255,255,255,0.08)", fontSize: 10, color: "rgba(255,255,255,0.35)" }}>Protección de Datos · Ley 21.719</div>}
-  </div>
-);
-
 // ====================================================================
 // MAIN
 // ====================================================================
 export default function GestionConsentimientosB2B() {
-  const [collapsed, setCollapsed] = useState(false);
   const [view, setView] = useState("list");
   const [tab, setTab] = useState("titulares");
   const [search, setSearch] = useState("");
@@ -510,7 +489,6 @@ export default function GestionConsentimientosB2B() {
     return map;
   }, [registros]);
 
-  const ml = collapsed ? 56 : 210;
   const mr = copilotOpen ? 380 : 0;
   const selectedReg = selectedId ? registros.find(r => r.id === selectedId) : null;
 
@@ -646,9 +624,8 @@ export default function GestionConsentimientosB2B() {
   };
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: C.bg, fontFamily: "'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif" }}>
-      <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
-      <div style={{ flex: 1, marginLeft: ml, marginRight: mr, transition: "margin-left 0.2s, margin-right 0.3s" }}>
+    <div>
+      <div style={{ flex: 1, marginLeft: 0, marginRight: mr, transition: "margin-right 0.3s" }}>
         <div style={{ height: 52, background: C.white, borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 28px", position: "sticky", top: 0, zIndex: 50 }}>
           <div style={{ display: "flex", alignItems: "center" }}><span style={{ fontSize: 13, color: C.textSec }}>Protección de Datos</span><span style={{ color: C.textMut, margin: "0 6px" }}>›</span><span style={{ fontSize: 13, fontWeight: 700, color: C.text }}>Gestión de Consentimientos</span></div>
           {!copilotOpen && <button onClick={() => setCopilotOpen(true)} style={{ display: "flex", alignItems: "center", gap: 6, padding: "6px 14px", borderRadius: 8, background: `linear-gradient(135deg, ${C.ai}12 0%, ${C.ai}06 100%)`, border: `1px solid ${C.ai}33`, color: C.ai, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>🤖 Asistente IA</button>}

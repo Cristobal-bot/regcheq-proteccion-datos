@@ -89,37 +89,6 @@ const initialCategorias = [
   { id: "sexual", nombre: "Orientación sexual", sensible: true, activa: false, riesgoBase: "Alto" },
 ];
 
-// ===== SIDEBAR =====
-const sidebarItems = [
-  { icon: "🏠", label: "Dashboard", id: "dashboard" },
-  { icon: "📋", label: "Inventario RAT", id: "rat" },
-  { icon: "⚖️", label: "Licitud", id: "licitud" },
-  { icon: "📑", label: "Gestión Consent.", id: "consentimientos" },
-  { icon: "🔒", label: "Riesgos (EIPD)", id: "eipd" },
-  { icon: "📩", label: "Derechos ARCO+", id: "arco" },
-  { icon: "⚙️", label: "Setup", id: "setup", active: true },
-];
-const Sidebar = ({ collapsed, onToggle }) => (
-  <div style={{ width: collapsed ? 56 : 210, minHeight: "100vh", background: `linear-gradient(180deg, ${C.navyDark} 0%, ${C.navyMid} 100%)`, color: "#fff", display: "flex", flexDirection: "column", position: "fixed", left: 0, top: 0, zIndex: 100, transition: "width 0.2s" }}>
-    <div style={{ padding: collapsed ? "18px 8px" : "18px 16px", borderBottom: "1px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: collapsed ? "center" : "space-between" }}>
-      {!collapsed && <span style={{ fontWeight: 800, fontSize: 20, fontFamily: "Georgia, serif" }}>Regcheq</span>}
-      <button onClick={onToggle} style={{ background: "rgba(255,255,255,0.08)", border: "none", color: "#fff", cursor: "pointer", borderRadius: 4, padding: "3px 7px", fontSize: 12 }}>{collapsed ? "▶" : "◀"}</button>
-    </div>
-    <nav style={{ flex: 1, paddingTop: 6 }}>
-      {sidebarItems.map(item => {
-        const isSetup = item.id === "setup";
-        return (
-          <div key={item.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: collapsed ? "10px 0" : "10px 16px", justifyContent: collapsed ? "center" : "flex-start", cursor: "pointer", background: item.active ? "rgba(255,255,255,0.12)" : "transparent", borderLeft: item.active ? "3px solid #fff" : "3px solid transparent", fontSize: 13, marginTop: isSetup ? 8 : 0, borderTop: isSetup ? "1px solid rgba(255,255,255,0.08)" : "none", paddingTop: isSetup ? 14 : undefined }}>
-            <span style={{ fontSize: 15 }}>{item.icon}</span>
-            {!collapsed && <span style={{ fontWeight: item.active ? 600 : 400 }}>{item.label}</span>}
-          </div>
-        );
-      })}
-    </nav>
-    {!collapsed && <div style={{ padding: "14px 16px", borderTop: "1px solid rgba(255,255,255,0.08)", fontSize: 10, color: "rgba(255,255,255,0.35)" }}>Protección de Datos · Ley 21.719</div>}
-  </div>
-);
-
 // ===== UI =====
 const Badge = ({ text, color, bg }) => <span style={{ padding: "2px 10px", borderRadius: 10, fontSize: 11, fontWeight: 600, background: bg, color, whiteSpace: "nowrap" }}>{text}</span>;
 const Btn = ({ children, onClick, variant = "primary", style: s = {}, disabled }) => {
@@ -439,14 +408,11 @@ const SeccionCategorias = ({ categorias, setCategorias }) => {
 // MAIN MODULE
 // ====================================================================
 export default function ModuloSetup() {
-  const [collapsed, setCollapsed] = useState(false);
   const [seccion, setSeccion] = useState("empresa");
   const [empresa, setEmpresa] = useState(initialEmpresa);
   const [areas, setAreas] = useState(initialAreas);
   const [usuarios, setUsuarios] = useState(initialUsuarios);
   const [categorias, setCategorias] = useState(initialCategorias);
-
-  const ml = collapsed ? 56 : 210;
 
   const secciones = [
     { id: "empresa", icon: "🏢", label: "Datos de la Empresa", desc: "Razón social, representante legal, DPD" },
@@ -456,9 +422,8 @@ export default function ModuloSetup() {
   ];
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: C.bg, fontFamily: "'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif" }}>
-      <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
-      <div style={{ flex: 1, marginLeft: ml, transition: "margin-left 0.2s" }}>
+    <div>
+      <div style={{ flex: 1, marginLeft: 0 }}>
         <div style={{ height: 52, background: C.white, borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 28px", position: "sticky", top: 0, zIndex: 50 }}>
           <div style={{ display: "flex", alignItems: "center" }}>
             <span style={{ fontSize: 13, color: C.textSec }}>Protección de Datos</span>

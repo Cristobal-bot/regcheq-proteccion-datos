@@ -77,53 +77,6 @@ const demoTendencia = [
   { mes: "Sep", score: 52 }, { mes: "Oct", score: 58 }, { mes: "Nov", score: 65 },
 ];
 
-// ===== SIDEBAR =====
-const sidebarItems = [
-  { icon: "🏠", label: "Home" }, { icon: "📝", label: "Nueva operación" },
-  { icon: "📋", label: "Operaciones" }, { icon: "🔍", label: "Consultar Persona" },
-  { icon: "👥", label: "Monitoreo" }, { icon: "👤", label: "Usuarios" },
-  { icon: "📊", label: "Reportes" }, { icon: "📑", label: "Listas de Interés" },
-  { icon: "📖", label: "Manuales" }, { icon: "🔔", label: "Notificaciones" },
-  { icon: "🛡️", label: "Protección de Datos", active: true }, { icon: "❓", label: "Ayuda" },
-];
-
-const Sidebar = ({ collapsed, onToggle }) => (
-  <div style={{
-    width: collapsed ? 56 : 210, minHeight: "100vh",
-    background: `linear-gradient(180deg, ${C.navyDark} 0%, ${C.navyMid} 100%)`,
-    color: "#fff", display: "flex", flexDirection: "column",
-    position: "fixed", left: 0, top: 0, zIndex: 100, transition: "width 0.2s",
-    borderRight: "1px solid rgba(255,255,255,0.05)",
-  }}>
-    <div style={{
-      padding: collapsed ? "18px 8px" : "18px 16px",
-      borderBottom: "1px solid rgba(255,255,255,0.08)",
-      display: "flex", alignItems: "center", justifyContent: collapsed ? "center" : "space-between",
-    }}>
-      {!collapsed && <span style={{ fontWeight: 800, fontSize: 20, fontFamily: "Georgia, serif", letterSpacing: -0.5 }}>Regcheq</span>}
-      <button onClick={onToggle} style={{
-        background: "rgba(255,255,255,0.08)", border: "none", color: "#fff",
-        cursor: "pointer", borderRadius: 4, padding: "3px 7px", fontSize: 12,
-      }}>{collapsed ? "▶" : "◀"}</button>
-    </div>
-    <nav style={{ flex: 1, paddingTop: 6 }}>
-      {sidebarItems.map((item, i) => (
-        <div key={i} style={{
-          display: "flex", alignItems: "center", gap: 10,
-          padding: collapsed ? "9px 0" : "9px 16px",
-          justifyContent: collapsed ? "center" : "flex-start", cursor: "pointer",
-          background: item.active ? "rgba(255,255,255,0.12)" : "transparent",
-          borderLeft: item.active ? "3px solid #fff" : "3px solid transparent",
-          fontSize: 13, transition: "background 0.15s",
-        }}>
-          <span style={{ fontSize: 15 }}>{item.icon}</span>
-          {!collapsed && <span style={{ fontWeight: item.active ? 600 : 400 }}>{item.label}</span>}
-        </div>
-      ))}
-    </nav>
-  </div>
-);
-
 // ===== COMPONENTS =====
 const Badge = ({ text, color, bg }) => (
   <span style={{
@@ -526,7 +479,6 @@ const AICopilot = ({ open, onToggle, getResponse, getQuickActions, contextLabel 
 
 
 export default function ProteccionDatosDashboard() {
-  const [collapsed, setCollapsed] = useState(false);
   const [copilotOpen, setCopilotOpen] = useState(false);
   const [drillDown, setDrillDown] = useState(null);
   const [periodo, setPeriodo] = useState("6m");
@@ -545,14 +497,11 @@ export default function ProteccionDatosDashboard() {
     return { ratScore, licitScore, eipdScore, arcoScore, general, ratCompletos, licitValidadas, eipdOk, arcoOk, arcoTotal };
   }, []);
 
-  const ml = collapsed ? 56 : 210;
   const mr = copilotOpen ? 380 : 0;
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: C.bg, fontFamily: "'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif" }}>
-      <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
-
-      <div style={{ flex: 1, marginLeft: ml, marginRight: mr, transition: "margin-left 0.2s, margin-right 0.3s" }}>
+    <div>
+      <div style={{ flex: 1, marginLeft: 0, marginRight: mr, transition: "margin-right 0.3s" }}>
         {/* Header */}
         <div style={{
           height: 56, background: C.white, borderBottom: `1px solid ${C.border}`,
